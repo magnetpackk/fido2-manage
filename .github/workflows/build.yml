@@ -1,6 +1,8 @@
 name: Build Windows zh-CN
 
 on:
+  push:
+    branches: [windows-zh-cn]
   workflow_dispatch:   # manual only — run from the Actions tab
 
 jobs:
