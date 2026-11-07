@@ -301,7 +301,7 @@
     "This key does not expose fingerprint-for-PIV login (needs a Bio key with the biometric PIV reference).": "此密钥不支持 PIV 指纹登录（需要带有生物特征 PIV 引用的 Bio 密钥）。",
     "certificate only": "仅证书",
     "No key": "无密钥",
-    " in use)": " 个在用）",
+    " in use)": " 个在用)",
     "Public key in slot ": "槽位公钥：",
     "Import certificate into slot ": "导入证书到槽位：",
     "Choose a PEM or DER certificate file.": "请选择 PEM 或 DER 格式的证书文件。",
@@ -601,6 +601,9 @@
     "Version ": "版本 ",
     "e.g. Backup key — office safe": "例如：备用密钥 — 办公室保险柜",
     "No file chosen": "未选择文件",
-    "e.g. right index": "例如：右手食指"
+    "e.g. right index": "例如：右手食指",
+    "Rust crates": "Rust 依赖库",
+    "PIN-protected": "受 PIN 保护",
+    "PIN-derived": "由 PIN 派生"
   }
 }

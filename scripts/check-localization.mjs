@@ -20,6 +20,10 @@ function calls(code) {
       const name = node.callee.name || node.callee.property?.name;
       if (protectedCalls.has(name)) values.push([name, (name === 'addEventListener' ? node.arguments.slice(0, 1) : node.arguments).map(stable)]);
     }
+    if (node.type === 'BinaryExpression' && ['===', '!==', '==', '!='].includes(node.operator)) {
+      values.push(['comparison', [stable(node)]]);
+    }
+    if (node.type === 'SwitchCase') values.push(['switch', [stable(node.test)]]);
     for (const value of Object.values(node)) {
       if (Array.isArray(value)) { for (const child of value) if (child?.type) walk(child); }
       else if (value?.type) walk(value);

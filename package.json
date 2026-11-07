@@ -4,7 +4,9 @@
   "type": "module",
   "scripts": {
     "localize": "node scripts/localize-windows.mjs",
-    "check:localization": "node scripts/localize-windows.mjs --check && node scripts/check-localization.mjs"
+    "check:localization": "node scripts/localize-windows.mjs && node scripts/check-localization.mjs",
+    "review:upstream": "node scripts/review-upstream-ui.mjs",
+    "accept:upstream": "node scripts/review-upstream-ui.mjs --accept"
   },
   "devDependencies": {
     "acorn": "^8.15.0",

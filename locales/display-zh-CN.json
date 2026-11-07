@@ -3,6 +3,7 @@
   "Digital signature": "数字签名",
   "Key management": "密钥管理",
   "Card authentication": "卡片验证",
+  "X25519 (key agreement only)": "X25519（仅用于密钥协商）",
   "Good sample": "采样成功",
   "Too high — move your finger down": "位置过高，请将手指向下移动",
   "Too low — move your finger up": "位置过低，请将手指向上移动",

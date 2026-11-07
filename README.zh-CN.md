@@ -43,8 +43,8 @@ Windows 的 Rust build.rs 会在编译时生成中文资源；直接执行 Cargo
 
 1. `git fetch upstream`，在更新分支合并选定上游版本，处理冲突。
 2. `git diff <上次基线>..<新基线> -- token2-piv-gui/ui token2-piv-gui/src-tauri`，检查文案和 Windows 构建变更。
-3. 补充或修改独立词表；调整失效的上下文补丁。译文键或补丁失效时构建会报错。
-4. 人工审阅新增界面文字后，更新前端哈希基线，并更新本文档中的上游提交号。
+3. 执行 `npm run review:upstream`，查看 `artifacts/localization-review.json` 中的变更文件、失效补丁和待审文案候选。候选可能包含无需翻译的日志或技术名词，需要人工筛选。
+4. 补充或修改独立词表，调整失效的上下文补丁。人工审阅界面 diff 后执行 `npm run accept:upstream` 更新前端哈希基线，并更新本文档中的上游提交号。不要在构建时自动接受新基线。
 5. 执行 `npm run localize` 和 `npm run check:localization`，构建 Windows 包，只复测受影响页面。
 
 源文件哈希变化时构建会停止，避免上游新增或调整界面后静默漏译。

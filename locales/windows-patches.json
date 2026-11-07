@@ -16,6 +16,8 @@
   "${left} s": "${left} 秒",
   "${step.remaining === 1 ? \"\" : \"s\"}": "${step.remaining === 1 ? \"\" : \"\"}",
   "s.name}</b>": "window.zhDisplay(s.name)}</b>",
+  "${s.id} (${s.name})": "${s.id} (${window.zhDisplay(s.name)})",
+  "o.textContent = a.label;": "o.textContent = window.zhDisplay(a.label);",
   "li.textContent = name;": "li.textContent = window.zhDisplay(name);",
   "textContent: detail": "textContent: window.zhDisplay(detail)",
   "esc(val)}</b>": "esc(window.zhDisplay(val))}</b>",
