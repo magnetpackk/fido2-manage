@@ -12,7 +12,8 @@ fn main() {
             // Show the running version in the window title bar.
             use tauri::Manager;
             if let Some(w) = app.get_webview_window("main") {
-                let _ = w.set_title(&format!("Token2 Key Manager {}", env!("CARGO_PKG_VERSION")));
+                let title = if cfg!(target_os = "windows") { "Token2 密钥管理器" } else { "Token2 Key Manager" };
+                let _ = w.set_title(&format!("{} {}", title, env!("CARGO_PKG_VERSION")));
             }
             Ok(())
         })

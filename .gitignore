@@ -17,6 +17,7 @@ Thumbs.db
 *.user
 .vs/
 node_modules/
+token2-piv-gui/ui-windows/
 token2-piv-gui/src-tauri/libs/
 
 repo.zip

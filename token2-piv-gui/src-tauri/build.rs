@@ -1,4 +1,16 @@
 fn main() {
+    // Only the Windows frontend is localized. Keep the shared UI untouched.
+    if std::env::var("CARGO_CFG_TARGET_OS").as_deref() == Ok("windows") {
+        println!("cargo:rerun-if-changed=../ui");
+        println!("cargo:rerun-if-changed=../../locales");
+        println!("cargo:rerun-if-changed=../../scripts/localize-windows.mjs");
+        let manifest = std::path::PathBuf::from(std::env::var("CARGO_MANIFEST_DIR").unwrap());
+        let status = std::process::Command::new("node")
+            .arg(manifest.join("../../scripts/localize-windows.mjs"))
+            .status()
+            .expect("Windows localization requires Node.js; run npm ci in the repository root first");
+        assert!(status.success(), "Windows localization failed; review the reported upstream changes");
+    }
     // Where libt2piv (the PIV library from token2-piv-tool) lives. Point T2PIV_LIB_DIR at the token2-piv-tool build
     // output (…/build/lib on Linux/macOS, …/build/lib/Release on Windows).
     if let Ok(dir) = std::env::var("T2PIV_LIB_DIR") {

@@ -1,0 +1,13 @@
+{
+  "name": "fido2-manage-windows-zh-cn",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "localize": "node scripts/localize-windows.mjs",
+    "check:localization": "node scripts/localize-windows.mjs --check && node scripts/check-localization.mjs"
+  },
+  "devDependencies": {
+    "acorn": "^8.15.0",
+    "jsdom": "^26.1.0"
+  }
+}

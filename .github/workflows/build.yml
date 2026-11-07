@@ -1,4 +1,4 @@
-name: Build Windows
+name: Build Windows zh-CN
 
 on:
   workflow_dispatch:   # manual only — run from the Actions tab
@@ -38,6 +38,12 @@ jobs:
         with:
           node-version: 20
 
+      - name: Prepare and check Windows localization
+        run: |
+          npm ci --ignore-scripts --no-audit --no-fund
+          npm run localize
+          npm run check:localization
+
       # ---- Build everything via the existing script ----
       # Output dir is OUTSIDE the checkout ($RUNNER_TEMP) so build artifacts can
       # never be committed back into the repo, and the checkout stays clean.
@@ -64,13 +70,28 @@ jobs:
           echo "STAGE=$stage" >> $env:GITHUB_ENV
           Get-ChildItem -Recurse $stage | Select-Object FullName | Format-Table -Auto
 
+      - name: Package Windows zh-CN
+        shell: pwsh
+        run: |
+          $portable = Join-Path $env:STAGE "token2-key-manager"
+          foreach ($file in @("token2-key-manager.exe", "fido2-manage.exe", "libt2piv.dll", "t2fido2.dll")) {
+            if (-not (Test-Path (Join-Path $portable $file))) { throw "Missing required file: $file" }
+          }
+          Copy-Item README.zh-CN.md $portable
+          $archive = Join-Path $env:RUNNER_TEMP "token2-key-manager-windows-x64-zh-CN.zip"
+          Compress-Archive -Path $portable -DestinationPath $archive
+          $hash = (Get-FileHash $archive -Algorithm SHA256).Hash.ToLowerInvariant()
+          "$hash  $(Split-Path $archive -Leaf)" | Set-Content "$archive.sha256" -Encoding utf8
+          echo "ARCHIVE=$archive" >> $env:GITHUB_ENV
+
       - name: Upload build artifacts
-        if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: token2-key-manager-windows
-          path: ${{ env.STAGE }}/**
-          if-no-files-found: warn
+          name: token2-key-manager-windows-zh-CN
+          path: |
+            ${{ env.ARCHIVE }}
+            ${{ env.ARCHIVE }}.sha256
+          if-no-files-found: error
           retention-days: 30
 
       # ---- On a version tag, also publish a GitHub Release ----
@@ -78,6 +99,8 @@ jobs:
         if: startsWith(github.ref, 'refs/tags/v')
         uses: softprops/action-gh-release@v2
         with:
-          files: ${{ env.STAGE }}/**
+          files: |
+            ${{ env.ARCHIVE }}
+            ${{ env.ARCHIVE }}.sha256
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

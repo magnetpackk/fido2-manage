@@ -1,4 +1,7 @@
 {
+  "build": {
+    "frontendDist": "../ui-windows"
+  },
   "bundle": {
     "resources": {
       "dlls/*.dll": "./"
