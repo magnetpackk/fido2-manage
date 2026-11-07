@@ -1,5 +1,9 @@
 # fido2-manage
 
+> **Windows 简体中文版**：本 Fork 的汉化维护位于 `windows-zh-cn` 分支，
+> 下载、构建与同步上游说明见 [README.zh-CN.md](README.zh-CN.md)。
+> `main` 保留上游基线；Linux / macOS 继续使用英文界面。
+
 **fido2-manage** is a command-line tool for managing FIDO2 security keys —
 passkeys, PINs, fingerprints, PIN policy and factory reset. This project is the
 ground-up rewrite of the original fido2-manage  a native, cross-platform
