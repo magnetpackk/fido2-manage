@@ -3,7 +3,7 @@ name: Build Windows zh-CN
 on:
   push:
     branches: [windows-zh-cn]
-  workflow_dispatch:   # manual only — run from the Actions tab
+  workflow_dispatch:   # also runnable manually from the Actions tab
 
 jobs:
   build:
@@ -71,6 +71,22 @@ jobs:
           }
           echo "STAGE=$stage" >> $env:GITHUB_ENV
           Get-ChildItem -Recurse $stage | Select-Object FullName | Format-Table -Auto
+
+      - name: Smoke test portable Windows app
+        shell: pwsh
+        run: |
+          $portable = Join-Path $env:STAGE "token2-key-manager"
+          $exe = Join-Path $portable "token2-key-manager.exe"
+          $appProcess = Start-Process -FilePath $exe -WorkingDirectory $portable -WindowStyle Hidden -PassThru
+          try {
+            Start-Sleep -Seconds 8
+            $appProcess.Refresh()
+            if ($appProcess.HasExited) { throw "GUI exited during startup, code $($appProcess.ExitCode)" }
+            Write-Host "Portable GUI stayed running for 8 seconds without a hardware device."
+          } finally {
+            $appProcess.Refresh()
+            if (-not $appProcess.HasExited) { Stop-Process -Id $appProcess.Id }
+          }
 
       - name: Package Windows zh-CN
         shell: pwsh
